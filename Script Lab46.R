@@ -1,0 +1,101 @@
+#--------------------------LABORATORIO 46--------------------------
+
+# Hecho con gusto por Carla Carolina Pérez Hernández (UAEH)
+#v2
+#------------Alumna: Ana Grisel Sanjuan Merida---------------------
+
+# LABORATORIO - Gráficos en R con ggplot2 para Ciencia de Datos
+#Grafica de lineas en R 
+
+
+#Instalar paquete con los datos
+install.packages("gapminder")
+install.packages("ggplot2")
+
+#Cargar libreria ggplot2 y gapminder
+library(ggplot2)
+library(gapminder)
+
+#Cargar datos a entorno
+data("gapminder")
+
+#Filtrando ESPAÑA
+#Objeto llamado gapminderES
+#Proviene de gapminder
+#El country solo será España
+#El objeto generado está en el entorno de variables (environment)
+#Se visualiza al dar clic sobre el objeto
+gapminderES = gapminder[gapminder$country == "Spain" ,]
+
+#Grafica de puntos con ggplot2
+#Para ver el transcurso del tiempo en una variable en cuestión
+#De ggplt se utilizan los datos recien generados
+#Graficando con un elemento estético
+#La variable X será igual a year
+#La viariable Y será igual a lifeExp
+#La gráfica será de líneas
+ggplot (data = gapminderES,
+        mapping = aes(x = year,
+                      y = lifeExp)) +
+  geom_line()
+
+#Modificando tipo de linea y color
+#Utilizando indicaciones anteriores
+#La línea será de tipo punteado y de color rojo
+ggplot (data = gapminderES,
+        mapping = aes(x = year,
+                      y = lifeExp)) +
+  geom_line(linetype = "dashed",
+            color = "red")
+
+#Modificando tamaño y hacer flecha
+#Utilizando indicaciones anteriores
+#Línea punteada rojo y agragando flecha tamaño 2
+#Se combinará con gráfico de puntos en tamaño 3
+ggplot (data = gapminderES,
+        mapping = aes(x = year,
+                      y = lifeExp)) +
+  geom_line(linetype = "dashed",
+            color = "red",
+            arrow = arrow(),
+            size = 2) +
+  geom_point(size = 3)
+
+#Agregando puntos
+#Considerando los países de habla hispana
+#Se genera vector llamado hispam_vec
+#Se visualiza en el environment
+hispam_vec = c(
+  'Argentina', 'Brazil', 'Bolivia', 'Chile', 'Colombia',
+  'Costa Rica', 'Cuba', 'Dominican Republic',
+  'Ecuador', 'El Salvador', 'Guatemala', 'Honduras',
+  'Mexico', 'Nicaragua', 'Panama', 'Paraguay',
+  'Peru', 'Uruguay',
+  'Spain', 'Puerto Rico',
+  'Venezuela' )
+
+#Trabajando gapminder con paises de habla hispana (valores recien elegidos)
+
+#Crear un objeto df
+#Generar objeto llamado gapminder_hisp
+#Tomando los países del vector recien creado (con %in%)
+#En el environment es posible ver el objeto creado
+gapminder_hisp = gapminder[gapminder$country %in% hispam_vec,]
+
+#Probando diferentes aestetics
+#Se extrae de gapminder_hisp
+#Graficando con un elemento estético
+#La variable X será igual a year
+#La viariable Y será igual a lifeExp
+#Se colorean los diferentes países
+#La gráfica será de líneas
+ggplot (data = gapminder_hisp,
+        mapping = aes(x = year,
+                      y = lifeExp,
+                      color = country)) +
+  geom_line()
+
+#Exportar dataframe de los países hispano hablantes
+write.csv(gapminder_hisp, file="gapminder_hisp.csv")
+
+#--------------------------------FIN DE LABORATORIO 46-------------------------------------
